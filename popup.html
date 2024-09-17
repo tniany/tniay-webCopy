@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>tniay-网页文字复制</title>
+  <style>
+    body { 
+      width: 300px; 
+      padding: 10px; 
+      font-family: Arial, sans-serif;
+      background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    }
+    h2 { margin-top: 0; }
+    ul { padding-left: 20px; }
+    #copyHistory { 
+      margin-top: 20px; 
+      max-height: 200px; 
+      overflow-y: auto; 
+      border: 1px solid #ccc; 
+      padding: 5px;
+      display: none; /* 默认隐藏 */
+    }
+    .history-item { 
+      margin-bottom: 5px; 
+      padding: 5px; 
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .history-text-container {
+      flex-grow: 1;
+      margin-right: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+      max-width: 200px; /* 调整此值以适应您的布局 */
+    }
+    .history-text { 
+      cursor: pointer; 
+      display: inline-block;
+    }
+    .history-text:hover { text-decoration: underline; }
+    .edit-btn, .delete-btn {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: none;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5px;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .edit-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .delete-btn {
+      background-color: #f44336;
+      color: white;
+    }
+    .edit-btn:hover, .delete-btn:hover {
+      transform: scale(1.1);
+    }
+    /* 自定义滚动条样式 */
+    .history-text-container::-webkit-scrollbar {
+      height: 6px;
+    }
+    .history-text-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    .history-text-container::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+    .history-text-container::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    #noHistoryMessage {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin-top: 20px;
+      display: none;
+    }
+    .fullscreen-edit {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: white;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .fullscreen-edit textarea {
+      flex-grow: 1;
+      margin-bottom: 10px;
+      resize: none;
+    }
+    .fullscreen-edit .button-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .fullscreen-edit button {
+      margin-left: 10px;
+    }
+    /* 保留原有样式 */
+    .intro {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+    }
+    .intro p {
+      margin: 5px 0;
+    }
+    #titleSection {
+      cursor: pointer;
+      user-select: none;
+    }
+    #titleSection:hover {
+      color: #4CAF50;
+    }
+    /* 其他原有样式保持不变 */
+    
+    .title-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    #github-link {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background-color 0.3s;
+      position: relative;
+    }
+    
+    #github-link:hover {
+      background-color: #555;
+    }
+    
+    #github-link::after {
+      content: "tniay-网页文字复制助手的仓库地址";
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #333;
+      color: white;
+      padding: 5px;
+      border-radius: 3px;
+      font-size: 12px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    
+    #github-link:hover::after {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="title-container">
+    <h2 id="titleSection">tniay-网页文字复制助手</h2>
+    <button id="github-link" title="访问 GitHub 仓库">G</button>
+  </div>
+  
+  <h3>使用方法：</h3>
+  <ul>
+    <li>选中文字后右键 -> "复制选中文字"</li>
+    <li>右键 -> "复制所有文字" 复制整个页面</li>
+    <li>右键 -> "全选网页文字" 选中整个页面</li>
+  </ul>
+  <h3 id="historyTitle" style="display: none;">复制历史：（点击可复制）</h3>
+  <div id="copyHistory"></div>
+  <div id="noHistoryMessage">当前没有复制历史</div>
+  <script src="popup.js"></script>
+</body>
+</html>
