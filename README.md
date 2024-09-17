@@ -12,7 +12,7 @@
  
 安装步骤：
  
-1. 首先，前往 GitHubhttps://github.com/tniany/tniay-webCopy  下载已经发布的压缩包。
+1. 首先，前往 GitHub  https://github.com/tniany/tniay-webCopy  下载已经发布的压缩包。
 2. 将压缩包解压在桌面上或者任意文件夹。
 3. 在安装时，打开浏览器（谷歌浏览器或 Edge 浏览器）的开发人员模式。
 4. 选择“加载解压缩的扩展”，然后选择已经解压好的文件夹（注意是文件夹，不是文件夹里面的内容）。
